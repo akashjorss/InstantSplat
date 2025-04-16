@@ -105,3 +105,34 @@ If you find our work useful in your research, please consider giving a star :sta
         primaryClass={cs.CV}
       }
 ```
+
+## Instructions to run in Ruche
+
+1. Start a GPU node:
+```
+srun --nodes=1 --gres=gpu:1 --time=24:00:00 --partition=gpu --mem=512G --pty /bin/bash
+```
+2. Activate cuda and singularity
+```
+module load cuda/11.8.0/gcc-11.2.0 
+module load singularity/3.8.3/gcc-11.2.0
+```
+Verify if cuda is loaded successfully with nvidia-smi and nvcc --version commands. 
+
+3. Download the instantsplat singularity image:
+```
+singularity pull docker://dockerzhiwen/instantsplat_public:2.0
+```
+Skip this step if you aleady have the image downloaded.
+
+4. Run the image and bind the instantsplat (repo) folder:
+```
+singularity shell --nv \
+  --bind $WORKDIR/InstantSplat:/workspace/InstantSplat \
+  instantsplat_public_2.0.sif
+```
+5. Go to the instantsplat (repo) directory:
+```
+cd InstantSplat/
+```
+
